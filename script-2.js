@@ -1,5 +1,5 @@
 // Constants
-const rssFeedURL = 'https://podcasts.files.bbci.co.uk/p02nrv1v.rss';
+const rssFeedURL = 'https://podcasts.files.bbci.co.uk/p05cmk38.rss';
 const itemsPerPage = 5;
 
 // Variables
@@ -23,9 +23,11 @@ fetch(rssFeedURL)
             return {
                 title: item.querySelector('title').textContent,
                 description: item.querySelector('description').textContent,
-                image: item.querySelector('itunes\\:image\\:url')?.getAttribute('url') || '',
-                duration: item.querySelector('itunes\\:duration')?.textContent,
-                date: new Date(item.querySelector('pubDate').textContent),
+                pubDate: item.querySelector('date').textContent,
+                image: item.querySelector('image').textContent,
+                link: item.querySelector('link').textContent,
+                
+                // Add other relevant data you want to display
             };
         });
 
@@ -46,14 +48,15 @@ function updatePodcastDisplay() {
     displayedItems.forEach(item => {
         const itemDiv = document.createElement('div');
         itemDiv.innerHTML = `
+            <h2>${item.title}</h2>
+            <p>${item.description}</p>
+            <p>${item.duration}</p>
+            <p>${item.date}</p>
+            <p>${item.image}</p>
             <img src="${item.image}">
-            <h2>Title: ${item.title}</h2>
-            <p>Duration: ${item.duration}</p>
-            <p>Date: ${item.date.toDateString()}</p>
-            <p>Description: ${item.description}</p>
-            <img src="${item.image}" alt="Podcast Artwork">
-            <p>${item.image} item</p>
+            <p>${item.link}</p>
             
+            <a href="${item.link}">Listen</a>
             
             <!-- Add other HTML elements for displaying additional data -->
         `;
